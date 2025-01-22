@@ -1,22 +1,20 @@
 # DTTF-Sim
 
-DTTF-Sim是一个为高速自动驾驶开发的基于数字孪生的交通流模拟器. DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建. 
+DTTF-Sim是一个为自动驾驶开发的基于数字孪生的交通流模拟器，目前仅支持高速场景。 DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建。
 
 [![Video Title](https://img.youtube.com/vi/7ycsj_db4H0/0.jpg)](https://www.youtube.com/watch?v=7ycsj_db4H0)
 
-<!-- <a href="https://www.youtube.com/watch?v=7ycsj_db4H0" title="Link Title"><img src="https://img.youtube.com/vi/7ycsj_db4H0/0.jpg" alt="DTTF-Sim" /></a> -->
-
 ## 1.系统环境
 
-目前， DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。
+DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。
 
 ## 2. 部署
 
 ### 2.1 Carla
-DTTF-Sim基于Carla虚拟引擎构建，我们建议用户下载[0.9.15发行版](https://tiny.carla.org/carla-0-9-15-linux), Carla的详细安装方法请参考官网教程。
+DTTF-Sim基于Carla虚拟引擎构建，[0.9.15发行版](https://tiny.carla.org/carla-0-9-15-linux)是构建DTTF-Sim的基础版本。 Carla的详细安装方法请参考官网教程。
 
 ### 2.2 下载DTTF-Sim
-DTTF-Sim运行程序保存在[Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing)中.
+DTTF-Sim可执行程序存储在[Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing)中，可免费自行下载。
 
 DTTF-Sim软件目录如下所示：
 ```shell
@@ -29,17 +27,17 @@ start.sh       # DTTF-Sim启动脚本
 ```
 
 ### 2.3 启动
-我们推荐通过执行`start.sh`启动DTTF-Sim. 在启动DTTF-Sim之前，请确保Carla环境已启动。
+推荐执行`start.sh`启动DTTF-Sim。 在启动DTTF-Sim之前，请确保Carla环境已启动。
 ```shell
 sh /path/to/DTTF-Sim/start.sh
 ```
 ### 2.4 自动驾驶系统接入
+在DTTF-Sim启动后，用户通过发送自动驾驶车辆创建指令在DTTF-Sim中创建自动驾驶车辆及其传感器配置。自动驾驶车辆创建指令使用Protobuf进行定义。用户可以在任意时刻使用该指令进行创建自动驾驶车辆。DTTF-Sim以UDP方式在地址0.0.0.0:50051上监听并接受自动驾驶车辆创建指令。
 
-自动驾驶车辆的配置协议使用Protobuf进行定义。自动驾驶系统可以在任意使用使用该配置协议进行创建自动驾驶车辆。DTTF-Sim使用UDP方式在地址0.0.0.0:50051上监听自动驾驶车辆配置信息。
+自动驾驶车辆创建指令详细介绍如下：
 ```protobuf
 syntax = "proto2";
 package dttf.rpc;
-
 
 enum CommunicationType{                 // 消息通信类型，考虑传感器通信效率问题，目前传感器数据、控制信息仅支持UNIX域流方式通信。
   None = 0;                
@@ -74,7 +72,7 @@ message CameraConfig{                            // 相机传感器配置
   required uint32 width = 5;                     // 像宽
   required uint32 height = 6;                    // 像高 
   required double lens_flare_intensity = 7;      // 镜头光晕强度
-  required Communication communication = 8;      // 相机传感器数据通信方式
+  required Communication communication = 8;      // 相机传感器数据通信方式，只能使用Unix 域通信方式
 
 }
 
@@ -88,21 +86,21 @@ message LidarConfig{                             // 激光雷达传感器配置
   required uint32 horizontal_fov = 7;            // 激光雷达的水平视野范围
   required int32 upper_fov = 8;                  // 激光雷达的垂直-上极限视野
   required int32 lower_fov = 9;                  // 激光雷达的垂直-下极限视野
-  required Communication communication = 11;     // 激光雷达传感器数据通信方式
+  required Communication communication = 11;     // 激光雷达传感器数据通信方式，只能使用Unix 域通信方式
 }
 
 message GnssConfig{                              // GNSS传感器配置
   required string name = 1;                      // GNSS传感器名
   required Location location = 2;                // GNSS设备相对于车辆中心的安装位置
   required Rotation rotation = 3;                // GNSS设备的姿态
-  required Communication communication = 11;     // GNSS传感器数据通信方式
+  required Communication communication = 11;     // GNSS传感器数据通信方式，只能使用Unix 域通信方式
 }
 
 message ImuConfig{                               // IMU传感器配置
   required string name = 1;                      // IMU传感器名
   required Location location = 2;                // IMU设备相对于车辆中心的安装位置
   required Rotation rotation = 3;                // IMU设备姿态
-  required Communication communication = 11;     // IMU传感器数据通信方式
+  required Communication communication = 11;     // IMU传感器数据通信方式，只能使用Unix 域通信方式
 }
 
 message RadarConfig{                             // Radar传感器配置
@@ -112,7 +110,7 @@ message RadarConfig{                             // Radar传感器配置
   required uint32 horizontal_fov = 4;            // 毫米波雷达水平视野范围
   required uint32 range = 5;                     // 毫米波雷达探测距离
   required uint32 vertical_fov = 6;              // 毫米波雷达垂直视野范围
-  required Communication communication = 11;     // 毫米波雷达数据通信方式
+  required Communication communication = 11;     // 毫米波雷达数据通信方式，只能使用Unix 域通信方式
 }
 
 message GroundTrueConfig{                        // 真值传感器配置
@@ -125,17 +123,17 @@ message LocalizationConfig{                      // 定位传感器配置 (GNSS+
   required string name = 1;                      // 定位传感器名
   required Location location = 2;                // 定位传感器相对于车辆中心的安装位置
   required Rotation rotation = 3;                // 定位传感器姿态
-  required Communication communication = 11;     // 定位传感器数据通信方式
+  required Communication communication = 11;     // 定位传感器数据通信方式，只能使用Unix 域通信方式
 }
 
 message ChassisConfig{                           // 底盘配置
   required string name = 1;                      // 底盘名
-  required Communication communication = 11;     // 底盘数据通信方式
+  required Communication communication = 11;     // 底盘数据通信方式，只能使用Unix 域通信方式
 }
 
 message ControlConfig{                           // 车辆控制信息配置
   required string name = 1;                      // 控制信息名
-  required Communication communication = 11;     // 车辆控制信息通信方式
+  required Communication communication = 11;     // 车辆控制信息通信方式，只能使用Unix 域通信方式
 }
 
 message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命令
@@ -154,6 +152,8 @@ message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命�
   required ControlConfig control = 14;           // 控制配置
 }
 ```
+
+传感器通信协议在文件`proto/message.h`中定义
 
 
 ## 3. 样例
