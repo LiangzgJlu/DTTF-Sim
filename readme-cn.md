@@ -2,7 +2,8 @@
 
 DTTF-Sim是一个为高速自动驾驶开发的基于数字孪生的交通流模拟器. DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建. 
 
-<a href="https://www.youtube.com/watch?v=7ycsj_db4H0" title="Link Title"><img src="https://img.youtube.com/vi/7ycsj_db4H0/0.jpg" alt="DTTF-Sim" /></a>
+
+<video src="https://www.youtube.com/watch?v=7ycsj_db4H0" controls="controls" width="500" height="300"></video>
 
 ## 1.系统环境
 
@@ -64,7 +65,7 @@ message Rotation{                       // 姿态信息
   required double pitch = 3;
 }
 
-message CameraConfig{                   // 相机传感器配置
+message CameraConfig{                            // 相机传感器配置
   required string name = 1;                      // 相机传感器名
   required Location location = 2;                // 相机相对于车辆中心的偏移
   required Rotation rotation = 3;                // 相机姿态
@@ -76,7 +77,7 @@ message CameraConfig{                   // 相机传感器配置
 
 }
 
-message LidarConfig{                    // 激光雷达传感器配置
+message LidarConfig{                             // 激光雷达传感器配置
   required string name = 1;                      // 激光雷达传感器名
   required Location location = 2;                // 激光雷达相对于车辆中心的安装位置
   required Rotation rotation = 3;                // 激光雷达的姿态
@@ -89,21 +90,21 @@ message LidarConfig{                    // 激光雷达传感器配置
   required Communication communication = 11;     // 激光雷达传感器数据通信方式
 }
 
-message GnssConfig{                     // GNSS传感器配置
+message GnssConfig{                              // GNSS传感器配置
   required string name = 1;                      // GNSS传感器名
   required Location location = 2;                // GNSS设备相对于车辆中心的安装位置
   required Rotation rotation = 3;                // GNSS设备的姿态
   required Communication communication = 11;     // GNSS传感器数据通信方式
 }
 
-message ImuConfig{                      // IMU传感器配置
+message ImuConfig{                               // IMU传感器配置
   required string name = 1;                      // IMU传感器名
   required Location location = 2;                // IMU设备相对于车辆中心的安装位置
   required Rotation rotation = 3;                // IMU设备姿态
   required Communication communication = 11;     // IMU传感器数据通信方式
 }
 
-message RadarConfig{                    // Radar传感器配置
+message RadarConfig{                             // Radar传感器配置
   required string name = 1;                      // Radar传感器名
   required Location location = 2;                // Radar传感器相对于车辆中心安装位置
   required Rotation rotation = 3;                // Radar传感器姿态
@@ -113,40 +114,40 @@ message RadarConfig{                    // Radar传感器配置
   required Communication communication = 11;     // 毫米波雷达数据通信方式
 }
 
-message GroundTrueConfig{               // 真值传感器配置
+message GroundTrueConfig{                        // 真值传感器配置
   required string name = 1;                      // 真值传感器名
   required uint32 range = 2;                     // 真值传感器探测范围
   required Communication communication = 11;     // 真值传感器通信方式
 }
 
-message LocalizationConfig{             // 定位传感器配置 (GNSS+IMU)
+message LocalizationConfig{                      // 定位传感器配置 (GNSS+IMU)
   required string name = 1;                      // 定位传感器名
   required Location location = 2;                // 定位传感器相对于车辆中心的安装位置
   required Rotation rotation = 3;                // 定位传感器姿态
   required Communication communication = 11;     // 定位传感器数据通信方式
 }
 
-message ChassisConfig{                  // 底盘配置
+message ChassisConfig{                           // 底盘配置
   required string name = 1;                      // 底盘名
   required Communication communication = 11;     // 底盘数据通信方式
 }
 
-message ControlConfig{                  // 车辆控制信息配置
-  required string name = 1;                    // 控制信息名
-  required Communication communication = 11;   // 车辆控制信息通信方式
+message ControlConfig{                           // 车辆控制信息配置
+  required string name = 1;                      // 控制信息名
+  required Communication communication = 11;     // 车辆控制信息通信方式
 }
 
-message AutonomousVehicleConfigCommand{ // 自动驾驶车辆配置命令
+message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命令
   required string name = 1;                      // 自动驾驶车辆名
   required string type = 2;                      // 自动驾驶车辆类型，参照Carla支持的车辆类型(如: vehicle.tesla.model3)
   required Location location = 3;                // 初始时车辆位置信息(x: 经度， y: 纬度， z: 高程)
   required Rotation rotation = 4;                // 初始时车辆姿态信息
-  repeated CameraConfig cameras = 6;    // 相机传感器配置
-  repeated LidarConfig lidars = 7;      // 激光雷达传感器配置
-  repeated RadarConfig radars = 8;      // 毫米波雷达传感器配置
-  repeated GnssConfig gnsses = 9;       // GNSS传感器配置
-  repeated ImuConfig imus = 10;         // IMU传感器配置
-  repeated GroundTrueConfig ground_true = 11; // 真值传感器配置
+  repeated CameraConfig cameras = 6;             // 相机传感器配置
+  repeated LidarConfig lidars = 7;               // 激光雷达传感器配置
+  repeated RadarConfig radars = 8;               // 毫米波雷达传感器配置
+  repeated GnssConfig gnsses = 9;                // GNSS传感器配置
+  repeated ImuConfig imus = 10;                  // IMU传感器配置
+  repeated GroundTrueConfig ground_true = 11;    // 真值传感器配置
   repeated LocalizationConfig localization = 12; // 定位传感器配置
   required ChassisConfig chassis = 13;           // 底盘配置
   required ControlConfig control = 14;           // 控制配置
