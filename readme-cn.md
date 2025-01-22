@@ -43,12 +43,12 @@ DTTF-Sim 提供与自动驾驶系统（如 Apollo）进行接入的接口。通�
 
 自动驾驶车辆的配置和创建指令采用 Protobuf 协议，支持多种传感器配置，包括相机、激光雷达、毫米波雷达、GNSS 等。
 
-DTTF-Sim 使用UDP方式在地址0.0.0.0:50051上监听并接受自动驾驶车辆的配置和创建指令。
+DTTF-Sim 使用TCP方式在地址 0.0.0.0:50051 上监听并接受自动驾驶车辆的配置和创建指令。
 
 
-传感器配置协议在文件`proto/autonomous_vehicle_creation_command.proto`中定义。
+传感器配置协议在文件 `proto/autonomous_vehicle_creation_command.proto` 中定义。
 
-传感器通信协议在文件`proto/message.h`中定义。
+传感器通信协议在文件 `proto/message.h` 中定义。
 
 
 ## 3. 示例
@@ -89,7 +89,7 @@ apollo_dttf 的目录结构如下：
 │   ├── driver_base.h 
 │   ├── gnss_component.cc               # GNSS传感器
 │   ├── gnss_component.h
-│   ├── ground_true_component.cc        # 真值传感器
+│   ├── ground_true_component.cc        # 真值目标传感器
 │   ├── ground_true_component.h
 │   ├── imu_component.cc                # IMU传感器
 │   ├── imu_component.h
@@ -113,6 +113,10 @@ apollo_dttf 的目录结构如下：
 │   └── dttf_rpc.proto
 └── util                                # Unix域
     ├── BUILD
+    ├── tcp_server.h
+    ├── tcp_server.cpp
+    ├── tcp_client.h
+    ├── tcp_client.cpp 
     ├── unix_socket_client.cc
     ├── unix_socket_client.h
     ├── unix_socket_server.cc
