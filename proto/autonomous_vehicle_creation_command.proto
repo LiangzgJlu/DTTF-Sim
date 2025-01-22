@@ -1,40 +1,3 @@
-# DTTF-Sim
-
-DTTF-Sim是一个为高速自动驾驶开发的基于数字孪生的交通流模拟器. DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建. 
-
-<a href="https://www.youtube.com/watch?v=7ycsj_db4H0" title="Link Title"><img src="https://img.youtube.com/vi/7ycsj_db4H0/0.jpg" alt="DTTF-Sim" /></a>
-
-## 1.系统环境
-
-目前， DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件
-
-## 2. 部署
-
-### 2.1 Carla
-DTTF-Sim基于Carla虚拟引擎构建，我们建议用户下载[0.9.15发行版](https://tiny.carla.org/carla-0-9-15-linux), Carla的详细安装方法请参考官网教程。
-
-### 2.2 下载DTTF-Sim
-DTTF-Sim运行程序保存在[Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing)中.
-
-DTTF-Sim软件目录如下所示：
-```shell
-├── bin        # 二进制可执行文件
-├── config     # 配置文件
-├── data       # 真实交通流特征驱动文件
-├── lib        # 依赖库
-└── log        # 日志目录
-start.sh       # DTTF-Sim启动脚本
-```
-
-### 2.3 启动
-我们推荐通过执行`start.sh`启动DTTF-Sim. 在启动DTTF-Sim之前，请确保Carla环境已启动。
-```shell
-sh /path/to/DTTF-Sim/start.sh
-```
-### 2.4 自动驾驶系统接入
-
-自动驾驶车辆的配置协议使用Protobuf进行定义。自动驾驶系统可以在任意使用使用该配置协议进行创建自动驾驶车辆。DTTF-Sim使用UDP方式在地址0.0.0.0:50051上监听自动驾驶车辆配置信息。
-```protobuf
 syntax = "proto2";
 package dttf.rpc;
 
@@ -45,11 +8,11 @@ enum CommunicationType{                 // 消息通信类型，考虑传感器�
   UNIX = 2;                             // UNIX 域
   UDP = 3;                              // UDP 
 }
+// 通信配置
 
-
-message Communication{                  // 通信配置        
+message Communication{                  
   required CommunicationType type = 1;
-  required string url = 2;              // 套接字通信地址 
+  required string url = 2;                       // 套接字通信地址 
 }
 
 message Location{                       // 位置信息
@@ -151,72 +114,3 @@ message AutonomousVehicleConfigCommand{ // 自动驾驶车辆配置命令
   required ChassisConfig chassis = 13;           // 底盘配置
   required ControlConfig control = 14;           // 控制配置
 }
-```
-
-
-## 3. 样例
-
-### 3.1 孪生 HighD 高速交通流场景 
-
-目前我们使用HighD高质量交通数据集构建了一个DTTF-Sim的使用样例。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件的下载地址保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。在资源文件导入完成后，执行start.sh启动脚本即可在仿真环境中孪生真实的高速交通流场景。
-
-### 3.2 接入Apollo自动驾驶系统
-
-我们不建议测试用户使用Carla提供的API在DTTF-Sim环境中构建仿真车辆，否则DTTF-Sim中的背景车辆将不会识别到该仿真车辆以至于发生未知的碰撞事件。DTTF-Sim系统提供了统一的自动驾驶系统接入接口。该仓库提供了DTTF-Sim与Apollo消息传递的数据桥，apollo_dttf。
-
-apollo_dttf的文件组织方式Apollo项目中的模块相同。其文件结构为：
-```shell
-./
-├── apollo_dttf_component.cc            # apollo_dttf 组件
-├── apollo_dttf_component.h
-├── BUILD
-├── common                  
-│   ├── BUILD
-│   ├── common.cc
-│   ├── common.h
-│   └── message.h                       # 传感器消息协议
-├── conf
-│   └── apollo_dttf.pb.txt              # 测试配置文件
-├── cyberfile.xml
-├── dag
-│   └── apollo_dttf.dag
-├── drivers                             # 传感器驱动文件，负责将DTTF-Sim数据与Apollo数据进行对齐
-│   ├── BUILD
-│   ├── camera_component.cc             # 相机传感器
-│   ├── camera_component.h          
-│   ├── chassis_component.cc            # 底盘传感器
-│   ├── chassis_component.h
-│   ├── driver_base.h 
-│   ├── gnss_component.cc               # GNSS传感器
-│   ├── gnss_component.h
-│   ├── ground_true_component.cc        # 真值传感器
-│   ├── ground_true_component.h
-│   ├── imu_component.cc                # IMU传感器
-│   ├── imu_component.h
-│   ├── lidar_component.cc              # 激光雷达传感器
-│   ├── lidar_component.h
-│   ├── localization_component.cc       # 定位传感器
-│   ├── localization_component.h
-│   ├── radar_component.cc              # 毫米波雷达传感器
-│   └── radar_component.h
-├── launch
-│   └── apollo_dttf.launch              # apollo_dttf启动文件
-├── map                                 # highd-3地图文件
-│   └── highd-3
-│       ├── base_map.xml                # Apollo 高精度地图文件
-│       ├── routing_map.bin             
-│       ├── routing_map.txt
-│       ├── sim_map.bin
-│       └── sim_map.txt
-├── proto                               # 自动驾驶车辆配置协议
-│   ├── BUILD
-│   └── dttf_rpc.proto
-└── util                                # Unix域
-    ├── BUILD
-    ├── unix_socket_client.cc
-    ├── unix_socket_client.h
-    ├── unix_socket_server.cc
-    └── unix_socket_server.h
-```
-
-
