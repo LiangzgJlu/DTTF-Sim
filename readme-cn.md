@@ -170,7 +170,7 @@ message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命�
 
 ### 3.1  HighD 高速交通流场景孪生 
 
-DTTF-Sim 提供了基于 HighD 数据集的高速公路交通流场景。在 v0.1.0 版本中，已经集成了 HighD 数据集，并为其提供了特定的交通流驱动文件。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件的下载地址保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。导入完成后，运行 start.sh 脚本即可加载真实的高速公路场景，并开始仿真。
+DTTF-Sim 提供了基于 HighD 数据集的高速公路交通流场景。在 v0.1.0 版本中，已经集成了 HighD 数据集，并为其提供了特定的交通流驱动文件。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。导入完成后，运行 start.sh 脚本即可加载真实的高速公路场景，并开始仿真。
 
 
 
