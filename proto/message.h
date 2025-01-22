@@ -206,13 +206,13 @@ struct LidarMessage {
  * 
  */
 struct RadarPointMessage{
-    // 高度
+    // 高度角，单位: rad
     float altitude;
-    // 
+    // 方位角，单位: rad
     float azimuth;
-    // 
+    // 距离，单位: m
     float depth;
-    // 
+    // 驶向Ego的速度, 单位: m/s
     float velocity;
 };
 
@@ -352,4 +352,15 @@ struct ControlMessage {
     double steer;
     // 是否倒车，0: 前进; 1: 倒车 
     int reverse;
+};
+
+/**
+ * \brief 自动驾驶车辆配置消息
+ * 
+ */
+struct AutonomousVehicleConfigMessage{
+    // 消息头
+    MessageHeader header;
+    /* data */
+    // 配置消息位于AutonomousVehicleConfigMessage尾部
 };

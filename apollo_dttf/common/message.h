@@ -207,7 +207,4 @@ struct AutonomousVehicleConfigMessage{
     MessageHeader header;
 };
 
-struct AutonomousVehicleConfigReplyMessage{
-    MessageHeader header;
-    bool ok;
-};
+

@@ -6,7 +6,7 @@ DTTF-Sim是一个为自动驾驶开发的基于数字孪生的交通流模拟器
 
 ## 1.系统环境
 
-DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。
+DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。源码将会在日后开放。
 
 ## 2. 部署
 
@@ -45,7 +45,6 @@ enum CommunicationType{                 // 消息通信类型，考虑传感器�
   UNIX = 2;                             // UNIX 域
   UDP = 3;                              // UDP 
 }
-
 
 message Communication{                  // 通信配置        
   required CommunicationType type = 1;
@@ -151,9 +150,11 @@ message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命�
   required ChassisConfig chassis = 13;           // 底盘配置
   required ControlConfig control = 14;           // 控制配置
 }
+
+
 ```
 
-传感器通信协议在文件`proto/message.h`中定义
+传感器通信协议在文件`proto/message.h`中定义。
 
 
 ## 3. 样例
