@@ -44,124 +44,9 @@ DTTF-Sim 提供与自动驾驶系统（如 Apollo）进行接入的接口。通�
 自动驾驶车辆的配置和创建指令采用 Protobuf 协议，支持多种传感器配置，包括相机、激光雷达、毫米波雷达、GNSS 等。
 
 DTTF-Sim 使用UDP方式在地址0.0.0.0:50051上监听并接受自动驾驶车辆的配置和创建指令。
-```protobuf
-syntax = "proto2";
-package dttf.rpc;
-
-enum CommunicationType{                 // 消息通信类型，考虑传感器通信效率问题，目前传感器数据、控制信息仅支持UNIX域流方式通信。
-  None = 0;                
-  TCP = 1;                              // TCP
-  UNIX = 2;                             // UNIX 域
-  UDP = 3;                              // UDP 
-}
-
-message Communication{                  // 通信配置        
-  required CommunicationType type = 1;
-  required string url = 2;              // 套接字通信地址 
-}
-
-message Location{                       // 位置信息
-  required double x = 1;                         
-  required double y = 2;                        
-  required double z = 3;                         
-}
-
-message Rotation{                       // 姿态信息
-  required double roll = 1;
-  required double yaw = 2;
-  required double pitch = 3;
-}
-
-message CameraConfig{                            // 相机传感器配置
-  required string name = 1;                      // 相机传感器名
-  required Location location = 2;                // 相机相对于车辆中心的偏移
-  required Rotation rotation = 3;                // 相机姿态
-  required uint32 fov = 4;                       // 相机FOV
-  required uint32 width = 5;                     // 像宽
-  required uint32 height = 6;                    // 像高 
-  required double lens_flare_intensity = 7;      // 镜头光晕强度
-  required Communication communication = 8;      // 相机传感器数据通信方式，只能使用Unix 域通信方式
-
-}
-
-message LidarConfig{                             // 激光雷达传感器配置
-  required string name = 1;                      // 激光雷达传感器名
-  required Location location = 2;                // 激光雷达相对于车辆中心的安装位置
-  required Rotation rotation = 3;                // 激光雷达的姿态
-  required uint32 channels = 4;                  // 激光雷达的通道数
-  required uint32 range = 5;                     // 激光雷达的探测半径
-  required uint32 rotation_frequency = 6;        // 激光雷达的旋转频率
-  required uint32 horizontal_fov = 7;            // 激光雷达的水平视野范围
-  required int32 upper_fov = 8;                  // 激光雷达的垂直-上极限视野
-  required int32 lower_fov = 9;                  // 激光雷达的垂直-下极限视野
-  required Communication communication = 11;     // 激光雷达传感器数据通信方式，只能使用Unix 域通信方式
-}
-
-message GnssConfig{                              // GNSS传感器配置
-  required string name = 1;                      // GNSS传感器名
-  required Location location = 2;                // GNSS设备相对于车辆中心的安装位置
-  required Rotation rotation = 3;                // GNSS设备的姿态
-  required Communication communication = 11;     // GNSS传感器数据通信方式，只能使用Unix 域通信方式
-}
-
-message ImuConfig{                               // IMU传感器配置
-  required string name = 1;                      // IMU传感器名
-  required Location location = 2;                // IMU设备相对于车辆中心的安装位置
-  required Rotation rotation = 3;                // IMU设备姿态
-  required Communication communication = 11;     // IMU传感器数据通信方式，只能使用Unix 域通信方式
-}
-
-message RadarConfig{                             // Radar传感器配置
-  required string name = 1;                      // Radar传感器名
-  required Location location = 2;                // Radar传感器相对于车辆中心安装位置
-  required Rotation rotation = 3;                // Radar传感器姿态
-  required uint32 horizontal_fov = 4;            // 毫米波雷达水平视野范围
-  required uint32 range = 5;                     // 毫米波雷达探测距离
-  required uint32 vertical_fov = 6;              // 毫米波雷达垂直视野范围
-  required Communication communication = 11;     // 毫米波雷达数据通信方式，只能使用Unix 域通信方式
-}
-
-message GroundTrueConfig{                        // 真值传感器配置
-  required string name = 1;                      // 真值传感器名
-  required uint32 range = 2;                     // 真值传感器探测范围
-  required Communication communication = 11;     // 真值传感器通信方式
-}
-
-message LocalizationConfig{                      // 定位传感器配置 (GNSS+IMU)
-  required string name = 1;                      // 定位传感器名
-  required Location location = 2;                // 定位传感器相对于车辆中心的安装位置
-  required Rotation rotation = 3;                // 定位传感器姿态
-  required Communication communication = 11;     // 定位传感器数据通信方式，只能使用Unix 域通信方式
-}
-
-message ChassisConfig{                           // 底盘配置
-  required string name = 1;                      // 底盘名
-  required Communication communication = 11;     // 底盘数据通信方式，只能使用Unix 域通信方式
-}
-
-message ControlConfig{                           // 车辆控制信息配置
-  required string name = 1;                      // 控制信息名
-  required Communication communication = 11;     // 车辆控制信息通信方式，只能使用Unix 域通信方式
-}
-
-message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命令
-  required string name = 1;                      // 自动驾驶车辆名
-  required string type = 2;                      // 自动驾驶车辆类型，参照Carla支持的车辆类型(如: vehicle.tesla.model3)
-  required Location location = 3;                // 初始时车辆位置信息(x: 经度， y: 纬度， z: 高程)
-  required Rotation rotation = 4;                // 初始时车辆姿态信息
-  repeated CameraConfig cameras = 6;             // 相机传感器配置
-  repeated LidarConfig lidars = 7;               // 激光雷达传感器配置
-  repeated RadarConfig radars = 8;               // 毫米波雷达传感器配置
-  repeated GnssConfig gnsses = 9;                // GNSS传感器配置
-  repeated ImuConfig imus = 10;                  // IMU传感器配置
-  repeated GroundTrueConfig ground_true = 11;    // 真值传感器配置
-  repeated LocalizationConfig localization = 12; // 定位传感器配置
-  required ChassisConfig chassis = 13;           // 底盘配置
-  required ControlConfig control = 14;           // 控制配置
-}
 
 
-```
+传感器配置协议在文件`proto/autonomous_vehicle_creation_command.proto`中定义。
 
 传感器通信协议在文件`proto/message.h`中定义。
 
@@ -169,6 +54,8 @@ message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命�
 ## 3. 示例
 
 ### 3.1  HighD 高速交通流场景孪生 
+
+[![视频示例](https://img.youtube.com/vi/zPRp-Gs7UI4/0.jpg)](https://www.youtube.com/watch?v=zPRp-Gs7UI4)
 
 DTTF-Sim 提供了基于 HighD 数据集的高速公路交通流场景。在 v0.1.0 版本中，已经集成了 HighD 数据集，并为其提供了特定的交通流驱动文件。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。导入完成后，运行 start.sh 脚本即可加载真实的高速公路场景，并开始仿真。
 
@@ -232,6 +119,21 @@ apollo_dttf 的目录结构如下：
     └── unix_socket_server.h
 ```
 您可以通过将 apollo_dttf 集成到 Apollo 项目中，来实现与 DTTF-Sim 仿真环境的实时数据交换。
+
+### 3.2 编译
+数据桥apollo_dttf使用的Apollo版本为10.0。用户可参照[官方文档](https://apollo.baidu.com/docs/apollo/10.x/index.html)进行安装编译Apollo。
+
+使用一下指令进行apollo_dttf编译
+```shell
+buildtool build -p modules/apollo_dttf
+```
+
+### 3.3 运行
+使用cyber_launch启动数据桥`apollo_dttf`
+
+```shell
+cyber_launch start modules/apollo_dttf/launch/apollo_dttf.launch
+```
 
 # 贡献
 我们欢迎社区对 DTTF-Sim 进行贡献！如果您发现任何问题或有改进的建议，请提交 Issue 或 Pull Request。
