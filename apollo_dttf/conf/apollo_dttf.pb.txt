@@ -1,0 +1,124 @@
+name: "autonomous vehicle"
+type: "vehicle.tesla.model3"
+location {
+  x: -990
+  y: 5.37
+  z: 0.05
+}
+rotation {
+}
+cameras {
+  name: "front_6mm"
+  channel_name: "/apollo/sensor/camera/front_6mm/image"
+  location {
+    x: 0.67
+    y: -0.1
+    z: 1.98
+  }
+  fov: 90
+  lens_flare_intensity: 0.0
+  rotation {
+  }
+  width: 1920
+  height: 1080
+  communication {
+    type: UNIX
+    url: "/apollo_workspace/unix_socket/front_6mm"
+  }
+}
+
+cameras {
+  name: "front_12mm"
+  channel_name: "/apollo/sensor/camera/front_12mm/image"
+  location {
+    x: 0.8
+    y: 0
+    z: 1.6
+  }
+  fov: 90
+  lens_flare_intensity: 0.0
+  rotation {
+  }
+  width: 1920
+  height: 1080
+  communication {
+    type: UNIX
+    url: "/apollo_workspace/unix_socket/front_12mm"
+  }
+}
+
+lidars {
+  name: "velodyne64"
+  channel_name: "/apollo/sensor/velodyne64/compensator/PointCloud2"
+  location {
+    z: 2.5
+  }
+  rotation {
+  }
+  channels: 128
+  range: 150
+  rotation_frequency: 100
+  horizontal_fov: 360
+  upper_fov: 10
+  lower_fov: -30
+  communication {
+    type: UNIX
+    url: "/apollo_workspace/unix_socket/velodyne128"
+  }
+}
+
+localization {
+    name: "localization"
+    location: {
+      x: -2
+      y: 0
+      z: 0
+    }
+    rotation {
+    }
+    communication {
+      type: UNIX
+      url: "/apollo_workspace/unix_socket/localization"
+    }
+    channel_name: "/apollo/localization/pose"
+    status_channel_name: "/apollo/localization/msf_status"
+}
+
+chassis {
+  name: "chassis"
+  communication {
+      type: UNIX
+      url: "/apollo_workspace/unix_socket/chassis"
+    }
+  channel_name: "/apollo/canbus/chassis"
+
+}
+
+
+control {
+  name: "control"
+  communication {
+      type: UNIX
+      url: "/apollo_workspace/unix_socket/control"
+  }
+  channel_name: "123123"
+}
+
+route {
+  name: "route"
+  target_location {
+  }
+  heading: 0.10
+  channel_name: "123123"
+}
+lane_following_command {
+  channel_name: "/apollo/external_command/lane_follow"
+  target_location: {
+    x: 500
+    y: 10
+  }
+  heading: 0
+}
+
+
+grpc_url: "localhost:50051"

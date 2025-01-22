@@ -1,0 +1,27 @@
+<package format="2">
+  <name>apollo-dttf</name>
+  <version>local</version>
+  <description>
+  Apollo DTTF Bridge
+  </description>
+
+  <maintainer email="liangzg22@mails.jlu.edu.cn">Zhigang Liang</maintainer>
+  <license>Apache License 2.0</license>
+
+
+  <type>module</type>
+  <src_path >//modules/apollo_dttf</src_path>
+
+  <depend type="binary" repo_name="common-msgs" lib_names="common-msgs">common-msgs</depend>
+  <depend type="binary" repo_name="cyber">cyber</depend>
+  <depend type="binary" repo_name="common" lib_names="common">common</depend>
+  <depend type="binary" repo_name="transform" lib_names="transform">transform</depend>
+  <depend repo_name="com_github_gflags_gflags" lib_names="gflags">3rd-gflags</depend>
+
+  <depend expose="False">3rd-rules-python</depend>
+  <depend expose="False">3rd-grpc</depend>
+  <depend expose="False">3rd-bazel-skylib</depend>
+  <depend expose="False">3rd-rules-proto</depend>
+  <depend expose="False">3rd-py</depend>
+
+</package>

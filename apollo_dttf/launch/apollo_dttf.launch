@@ -1,0 +1,7 @@
+<cyber>
+    <module>
+        <name>apollo_dttf</name>
+        <dag_conf>modules/apollo_dttf/dag/apollo_dttf.dag</dag_conf>
+        <process_name>apollo_dttf</process_name>
+    </module>
+</cyber>
