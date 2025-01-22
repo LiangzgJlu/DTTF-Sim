@@ -2,12 +2,13 @@
 
 DTTF-Sim是一个为高速自动驾驶开发的基于数字孪生的交通流模拟器. DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建. 
 
+[![Video Title](https://img.youtube.com/vi/7ycsj_db4H0/0.jpg)](https://www.youtube.com/watch?v=7ycsj_db4H0)
 
-<video src="https://www.youtube.com/watch?v=7ycsj_db4H0" controls="controls" width="500" height="300"></video>
+<!-- <a href="https://www.youtube.com/watch?v=7ycsj_db4H0" title="Link Title"><img src="https://img.youtube.com/vi/7ycsj_db4H0/0.jpg" alt="DTTF-Sim" /></a> -->
 
 ## 1.系统环境
 
-目前， DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件
+目前， DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。
 
 ## 2. 部署
 
