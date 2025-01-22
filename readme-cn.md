@@ -1,40 +1,49 @@
 # DTTF-Sim
 
-DTTF-Sim是一个为自动驾驶开发的基于数字孪生的交通流模拟器，目前仅支持高速场景。 DTTF-Sim旨在为自动驾驶系统提供高速场景下的动态交通流环境。DTTF-Sim基于Carla(0.9.15)构建。
+DTTF-Sim 是一款为自动驾驶开发的基于数字孪生的交通流模拟器，专为模拟高速公路场景而设计。该工具旨在为自动驾驶系统提供动态、逼真的交通流环境，用于测试和验证自动驾驶算法在高速公路场景中的性能。
 
-[![Video Title](https://img.youtube.com/vi/7ycsj_db4H0/0.jpg)](https://www.youtube.com/watch?v=7ycsj_db4H0)
+目前，DTTF-Sim 基于开源的 Carla 仿真平台 (v0.9.15) 构建，提供了多个功能，包括对真实交通流数据的驱动和高度可配置的传感器系统。
 
+[![视频示例](https://img.youtube.com/vi/7ycsj_db4H0/0.jpg)](https://www.youtube.com/watch?v=7ycsj_db4H0)
 ## 1.系统环境
 
-DTTF-Sim支持在Ubuntu 22.04系统上运行。v0.1.0版本仅提供可执行文件。源码将会在日后开放。
+DTTF-Sim 当前支持在 Ubuntu 22.04 系统上运行。
+
+> **注意**：v0.1.0 版本提供了可执行文件，源码将在后续版本中开放。
 
 ## 2. 部署
 
 ### 2.1 Carla
-DTTF-Sim基于Carla虚拟引擎构建，[0.9.15发行版](https://tiny.carla.org/carla-0-9-15-linux)是构建DTTF-Sim的基础版本。 Carla的详细安装方法请参考官网教程。
+DTTF-Sim 基于 Carla 仿真平台构建，支持使用 Carla (v0.9.15) 提供的高质量仿真环境。Carla 可以从 [Carla 官网](https://carla.org/) 下载，或直接通过 [下载链接](https://tiny.carla.org/carla-0-9-15-linux) 获取。安装 Carla 的详细步骤请参考 [Carla 官方文档](https://carla.readthedocs.io/en/0.9.15/)。
 
 ### 2.2 下载DTTF-Sim
-DTTF-Sim可执行程序存储在[Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing)中，可免费自行下载。
+DTTF-Sim 可执行程序和相关文件存储在 [Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing) 中，您可以从该链接免费下载。
 
-DTTF-Sim软件目录如下所示：
+
+下载后，DTTF-Sim 的文件结构如下：
+
 ```shell
 ├── bin        # 二进制可执行文件
 ├── config     # 配置文件
 ├── data       # 真实交通流特征驱动文件
 ├── lib        # 依赖库
 └── log        # 日志目录
-start.sh       # DTTF-Sim启动脚本
+start.sh       # DTTF-Sim 启动脚本
 ```
 
 ### 2.3 启动
-推荐执行`start.sh`启动DTTF-Sim。 在启动DTTF-Sim之前，请确保Carla环境已启动。
+启动 DTTF-Sim 前，请确保 Carla 环境已经启动。然后，使用以下命令运行 start.sh 启动脚本：
 ```shell
 sh /path/to/DTTF-Sim/start.sh
 ```
-### 2.4 自动驾驶系统接入
-在DTTF-Sim启动后，用户通过发送自动驾驶车辆创建指令在DTTF-Sim中创建自动驾驶车辆及其传感器配置。自动驾驶车辆创建指令使用Protobuf进行定义。用户可以在任意时刻使用该指令进行创建自动驾驶车辆。DTTF-Sim以UDP方式在地址0.0.0.0:50051上监听并接受自动驾驶车辆创建指令。
+脚本将自动加载 Carla 环境并初始化 DTTF-Sim 仿真环境。
 
-自动驾驶车辆创建指令详细介绍如下：
+### 2.4 自动驾驶系统接入
+DTTF-Sim 提供与自动驾驶系统（如 Apollo）进行接入的接口。通过 UDP 或 UNIX 域流通信协议，用户可以将自动驾驶系统的数据发送至 DTTF-Sim，生成仿真车辆。
+
+自动驾驶车辆的配置和创建指令采用 Protobuf 协议，支持多种传感器配置，包括相机、激光雷达、毫米波雷达、GNSS 等。
+
+DTTF-Sim 使用UDP方式在地址0.0.0.0:50051上监听并接受自动驾驶车辆的配置和创建指令。
 ```protobuf
 syntax = "proto2";
 package dttf.rpc;
@@ -157,19 +166,20 @@ message AutonomousVehicleConfigCommand{          // 自动驾驶车辆配置命�
 传感器通信协议在文件`proto/message.h`中定义。
 
 
-## 3. 样例
+## 3. 示例
 
-### 3.1 孪生 HighD 高速交通流场景 
+### 3.1  HighD 高速交通流场景孪生 
 
-目前我们使用HighD高质量交通数据集构建了一个DTTF-Sim的使用样例。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件的下载地址保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。在资源文件导入完成后，执行start.sh启动脚本即可在仿真环境中孪生真实的高速交通流场景。
+DTTF-Sim 提供了基于 HighD 数据集的高速公路交通流场景。在 v0.1.0 版本中，已经集成了 HighD 数据集，并为其提供了特定的交通流驱动文件。v0.1.0版提供了适配Carla 0.9.15 Ubuntu环境的资源文件，资源文件的下载地址保存在[Google Drive](https://drive.google.com/file/d/1DShAA5DvjNesSulPco-kVAJsSspIjIDv/view?usp=sharing)中。资源文件的导入方式请参照[教程](https://carla.readthedocs.io/en/0.9.15/tuto_M_add_map_package/)中的6，7进行导入。资源文件名为/Game/map_package/Maps/HighD-3-2/HighD-3-2。HighD-3-2的真实交通流特征驱动文件保存在data目录中。导入完成后，运行 start.sh 脚本即可加载真实的高速公路场景，并开始仿真。
+
+
 
 ### 3.2 接入Apollo自动驾驶系统
 
-我们不建议测试用户使用Carla提供的API在DTTF-Sim环境中构建仿真车辆，否则DTTF-Sim中的背景车辆将不会识别到该仿真车辆以至于发生未知的碰撞事件。DTTF-Sim系统提供了统一的自动驾驶系统接入接口。该仓库提供了DTTF-Sim与Apollo消息传递的数据桥，apollo_dttf。
+对于希望将 DTTF-Sim 与 Apollo 自动驾驶系统进行集成的用户，DTTF-Sim 提供了统一的接入接口。为了简化与 Apollo 的集成过程，我们提供了一个与 Apollo 消息传递系统兼容的数据桥——apollo_dttf，该组件能将 DTTF-Sim 的仿真数据与 Apollo 的各类传感器系统进行对接。
 
-apollo_dttf的文件组织方式Apollo项目中的模块相同。其文件结构为：
+apollo_dttf 的目录结构如下：
 ```shell
-./
 ├── apollo_dttf_component.cc            # apollo_dttf 组件
 ├── apollo_dttf_component.h
 ├── BUILD
@@ -221,5 +231,7 @@ apollo_dttf的文件组织方式Apollo项目中的模块相同。其文件结构
     ├── unix_socket_server.cc
     └── unix_socket_server.h
 ```
+您可以通过将 apollo_dttf 集成到 Apollo 项目中，来实现与 DTTF-Sim 仿真环境的实时数据交换。
 
-
+# 贡献
+我们欢迎社区对 DTTF-Sim 进行贡献！如果您发现任何问题或有改进的建议，请提交 Issue 或 Pull Request。
