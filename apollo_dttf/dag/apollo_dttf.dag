@@ -1,0 +1,10 @@
+module_config {
+    module_library : "modules/apollo_dttf/libapollo_dttf_component.so"
+    components {
+        class_name : "ApolloDttfComponent"
+        config {
+            name: "apollo_dttf"
+            config_file_path: "modules/apollo_dttf/conf/apollo_dttf.pb.txt"
+        }
+    }
+}
