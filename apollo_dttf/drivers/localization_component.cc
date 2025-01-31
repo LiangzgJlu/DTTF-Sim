@@ -71,12 +71,6 @@ namespace drivers {
             auto pose = localization->mutable_pose();
             pose->mutable_position()->set_x(x);
             pose->mutable_position()->set_y(y); 
-            // pose->mutable_position()->set_z(localization_message->location.z);
-            
-
-            // double apollo_yaw, apollo_roll, apollo_pitch;
-            // carlaToApolloEuler(localization_message->rotation.yaw / 180 * M_PI, localization_message->rotation.pitch / 180 * M_PI, localization_message->rotation.roll / 180 * M_PI, apollo_yaw, apollo_pitch, apollo_roll);
-
        
 
             Quaternion q = eulerToQuaternion(localization_message->rotation.yaw / 180 * M_PI, localization_message->rotation.roll / 180 * M_PI, localization_message->rotation.pitch / 180 * M_PI);
