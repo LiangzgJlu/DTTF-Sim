@@ -6,7 +6,7 @@
 
 #include <memory>
 #include "modules/apollo_dttf/util/unix_socket_server.h"
-#include "modules/apollo_dttf/proto/dttf_rpc.pb.h"
+#include "modules/apollo_dttf/proto/apollo_dttf.pb.h"
 #include "driver_base.h"
 #include "modules/common_msgs/localization_msgs/localization.pb.h"
 #include "modules/common_msgs/localization_msgs/localization_status.pb.h"
@@ -21,7 +21,7 @@ using apollo::localization::LocalizationStatus;
 
 class LocalizationComponent : public DriverBase{
 public:
-    explicit LocalizationComponent(const ::dttf::rpc::LocalizationConfig& config = {});
+    explicit LocalizationComponent(const apollo::dttf::config::LocalizationConfig& config = {});
     ~LocalizationComponent() override = default;
     bool Init(const std::shared_ptr<Node>& node ) override;
 
@@ -32,7 +32,7 @@ private:
     void LocalizationDataCallback(const char* data, const int& len);
 
     std::unique_ptr<util::UnixSocketServer> unix_server_ {nullptr};
-    std::shared_ptr<::dttf::rpc::LocalizationConfig> localization_config_ {nullptr};
+    std::shared_ptr<apollo::dttf::config::LocalizationConfig> localization_config_ {nullptr};
 
     std::shared_ptr<cyber::Writer<LocalizationEstimate>> localization_talker_ =
         nullptr;

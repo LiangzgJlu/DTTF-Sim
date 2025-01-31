@@ -15,8 +15,8 @@ namespace dttf {
 namespace drivers {
 
 
-    CameraComponent::CameraComponent(const ::dttf::rpc::CameraConfig& config) {
-        camera_config_ = std::make_shared<::dttf::rpc::CameraConfig>(config);
+    CameraComponent::CameraComponent(const apollo::dttf::config::CameraConfig& config) {
+        camera_config_ = std::make_shared<apollo::dttf::config::CameraConfig>(config);
     }
 
     bool CameraComponent::Init(const std::shared_ptr<Node>& node) {

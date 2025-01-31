@@ -8,8 +8,8 @@
 namespace apollo {
 namespace dttf {
 namespace drivers {
-    LocalizationComponent::LocalizationComponent(const ::dttf::rpc::LocalizationConfig& config) {
-        localization_config_ = std::make_shared<::dttf::rpc::LocalizationConfig>(config);
+    LocalizationComponent::LocalizationComponent(const apollo::dttf::config::LocalizationConfig& config) {
+        localization_config_ = std::make_shared<apollo::dttf::config::LocalizationConfig>(config);
     }
 
     bool LocalizationComponent::Init(const std::shared_ptr<Node>& node) {

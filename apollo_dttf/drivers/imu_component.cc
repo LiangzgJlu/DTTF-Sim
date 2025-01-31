@@ -12,8 +12,8 @@ namespace drivers {
 
 
 
-    ImuComponent::ImuComponent(const ::dttf::rpc::ImuConfig& config) {
-        imu_config_ = std::make_shared<::dttf::rpc::ImuConfig>(config);
+    ImuComponent::ImuComponent(const apollo::dttf::config::ImuConfig& config) {
+        imu_config_ = std::make_shared<apollo::dttf::config::ImuConfig>(config);
         
     }
 

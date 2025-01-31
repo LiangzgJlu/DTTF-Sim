@@ -7,7 +7,7 @@
 #include <string>
 #include <memory>
 #include "driver_base.h"
-#include "modules/apollo_dttf/proto/dttf_rpc.pb.h"
+#include "modules/apollo_dttf/proto/apollo_dttf.pb.h"
 #include "modules/apollo_dttf/util/unix_socket_server.h"
 #include "cyber/component/component.h"
 #include "cyber/cyber.h"
@@ -24,7 +24,7 @@ namespace drivers {
 class CameraComponent : public DriverBase{
 
 public:
-    CameraComponent(const ::dttf::rpc::CameraConfig& config = {});
+    CameraComponent(const apollo::dttf::config::CameraConfig& config = {});
     ~CameraComponent() = default;
     bool Init(const std::shared_ptr<Node>& node) override;
     
@@ -34,7 +34,7 @@ private:
 
     void ImageDataCallback(const char* data, const int& len);
 
-    std::shared_ptr<::dttf::rpc::CameraConfig> camera_config_{nullptr};
+    std::shared_ptr<apollo::dttf::config::CameraConfig> camera_config_{nullptr};
     std::unique_ptr<util::UnixSocketServer> unix_server_ {nullptr};
     std::shared_ptr<Writer<Image>> writer_ = nullptr;
     std::unique_ptr<apollo::transform::TransformBroadcaster> tf2_broadcaster_;

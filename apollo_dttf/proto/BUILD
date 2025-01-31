@@ -5,8 +5,9 @@ load("//tools:apollo_package.bzl", "apollo_package")
 package(default_visibility = ["//visibility:public"])
 
 proto_library(
-    name = "dttf_rpc_proto",
-    srcs = ["dttf_rpc.proto"],
+    name = "apollo_dttf_proto",
+    srcs = ["apollo_dttf.proto",
+            "autonomous_vehicle_creation_command.proto"],
 )
 
 apollo_package()
