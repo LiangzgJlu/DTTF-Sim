@@ -19,7 +19,6 @@ DTTF-Sim 基于 Carla 仿真平台构建，支持使用 Carla (v0.9.15) 提供�
 ### 2.2 下载DTTF-Sim
 DTTF-Sim 可执行程序和相关文件存储在 [Google Drive](https://drive.google.com/file/d/15clB6-KZXRp6fTIvMYVb7k7vaiZ-Ib_I/view?usp=sharing) 中，您可以从该链接免费下载。
 
-
 下载后，DTTF-Sim 的文件结构如下：
 
 ```shell
