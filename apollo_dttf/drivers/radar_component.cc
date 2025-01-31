@@ -10,8 +10,8 @@ namespace apollo {
     namespace dttf {
         namespace drivers
         {
-            RadarComponent::RadarComponent(const ::dttf::rpc::RadarConfig& config) {
-                radar_config_ = std::make_shared<::dttf::rpc::RadarConfig>(config);
+            RadarComponent::RadarComponent(const apollo::dttf::config::RadarConfig& config) {
+                radar_config_ = std::make_shared<apollo::dttf::config::RadarConfig>(config);
                 
             }
 

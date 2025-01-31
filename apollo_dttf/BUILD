@@ -31,7 +31,7 @@ apollo_component(
         "//modules/common_msgs/basic_msgs:header_cc_proto",
         "//modules/common_msgs/sensor_msgs:sensor_image_cc_proto",
         "//modules/common_msgs/sensor_msgs:pointcloud_cc_proto",
-        "//modules/apollo_dttf/proto:dttf_rpc_proto",
+        "//modules/apollo_dttf/proto:apollo_dttf_proto",
         "//modules/apollo_dttf/drivers:apollo_dttf_drivers",
         "//modules/common_msgs/transform_msgs:transform_cc_proto",
         "//third_party/tf2",

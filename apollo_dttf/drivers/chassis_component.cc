@@ -8,8 +8,8 @@
 namespace apollo {
 namespace dttf {
 namespace drivers {
-    ChassisComponent::ChassisComponent(const ::dttf::rpc::ChassisConfig& config) {
-        chassis_config_ = std::make_shared<::dttf::rpc::ChassisConfig>(config);
+    ChassisComponent::ChassisComponent(const apollo::dttf::config::ChassisConfig& config) {
+        chassis_config_ = std::make_shared<apollo::dttf::config::ChassisConfig>(config);
     }
 
     bool ChassisComponent::Init(const std::shared_ptr<Node>& node) {

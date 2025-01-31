@@ -15,8 +15,8 @@ namespace drivers {
 //    std::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
 
 
-    LidarComponent::LidarComponent(const ::dttf::rpc::LidarConfig& config) {
-        lidar_config_ = std::make_shared<::dttf::rpc::LidarConfig>(config);
+    LidarComponent::LidarComponent(const apollo::dttf::config::LidarConfig& config) {
+        lidar_config_ = std::make_shared<apollo::dttf::config::LidarConfig>(config);
     }
 
     bool LidarComponent::Init(const std::shared_ptr<Node>& node) {

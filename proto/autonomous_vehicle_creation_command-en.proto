@@ -1,0 +1,113 @@
+syntax = "proto2";
+package dttf.rpc;
+
+enum CommunicationType {                 // Message communication type. Considering sensor communication efficiency, currently, sensor data and control information only support UNIX domain stream communication.
+  None = 0;                
+  TCP = 1;                              // TCP
+  UNIX = 2;                             // UNIX domain
+  UDP = 3;                              // UDP 
+}
+
+message Communication {                  // Communication configuration        
+  required CommunicationType type = 1;
+  required string url = 2;              // Socket communication address 
+}
+
+message Location {                       // Location information
+  required double x = 1;                         
+  required double y = 2;                        
+  required double z = 3;                         
+}
+
+message Rotation {                       // Rotation information
+  required double roll = 1;
+  required double yaw = 2;
+  required double pitch = 3;
+}
+
+message CameraConfig {                            // Camera sensor configuration
+  required string name = 1;                      // Camera sensor name
+  required Location location = 2;                // Camera offset relative to the vehicle center
+  required Rotation rotation = 3;                // Camera orientation
+  required uint32 fov = 4;                       // Camera FOV
+  required uint32 width = 5;                     // Image width
+  required uint32 height = 6;                    // Image height 
+  required double lens_flare_intensity = 7;      // Lens flare intensity
+  required Communication communication = 8;      // Camera sensor data communication method, only supports UNIX domain communication
+}
+
+message LidarConfig {                             // LiDAR sensor configuration
+  required string name = 1;                      // LiDAR sensor name
+  required Location location = 2;                // LiDAR installation position relative to the vehicle center
+  required Rotation rotation = 3;                // LiDAR orientation
+  required uint32 channels = 4;                  // Number of LiDAR channels
+  required uint32 range = 5;                     // LiDAR detection range
+  required uint32 rotation_frequency = 6;        // LiDAR rotation frequency
+  required uint32 horizontal_fov = 7;            // LiDAR horizontal field of view
+  required int32 upper_fov = 8;                  // LiDAR vertical upper limit field of view
+  required int32 lower_fov = 9;                  // LiDAR vertical lower limit field of view
+  required Communication communication = 11;     // LiDAR sensor data communication method, only supports UNIX domain communication
+}
+
+message GnssConfig {                              // GNSS sensor configuration
+  required string name = 1;                      // GNSS sensor name
+  required Location location = 2;                // GNSS device installation position relative to the vehicle center
+  required Rotation rotation = 3;                // GNSS device orientation
+  required Communication communication = 11;     // GNSS sensor data communication method, only supports UNIX domain communication
+}
+
+message ImuConfig {                               // IMU sensor configuration
+  required string name = 1;                      // IMU sensor name
+  required Location location = 2;                // IMU device installation position relative to the vehicle center
+  required Rotation rotation = 3;                // IMU device orientation
+  required Communication communication = 11;     // IMU sensor data communication method, only supports UNIX domain communication
+}
+
+message RadarConfig {                             // Radar sensor configuration
+  required string name = 1;                      // Radar sensor name
+  required Location location = 2;                // Radar sensor installation position relative to the vehicle center
+  required Rotation rotation = 3;                // Radar sensor orientation
+  required uint32 horizontal_fov = 4;            // Radar horizontal field of view
+  required uint32 range = 5;                     // Radar detection range
+  required uint32 vertical_fov = 6;              // Radar vertical field of view
+  required Communication communication = 11;     // Radar sensor data communication method, only supports UNIX domain communication
+}
+
+message GroundTrueConfig {                        // Ground truth sensor configuration
+  required string name = 1;                      // Ground truth sensor name
+  required uint32 range = 2;                     // Ground truth sensor detection range
+  required Communication communication = 11;     // Ground truth sensor communication method
+}
+
+message LocalizationConfig {                      // Localization sensor configuration (GNSS + IMU)
+  required string name = 1;                      // Localization sensor name
+  required Location location = 2;                // Localization sensor installation position relative to the vehicle center
+  required Rotation rotation = 3;                // Localization sensor orientation
+  required Communication communication = 11;     // Localization sensor data communication method, only supports UNIX domain communication
+}
+
+message ChassisConfig {                           // Chassis configuration
+  required string name = 1;                      // Chassis name
+  required Communication communication = 11;     // Chassis data communication method, only supports UNIX domain communication
+}
+
+message ControlConfig {                           // Vehicle control information configuration
+  required string name = 1;                      // Control information name
+  required Communication communication = 11;     // Vehicle control information communication method, only supports UNIX domain communication
+}
+
+message AutonomousVehicleConfigCommand {          // Autonomous vehicle configuration command
+  required string name = 1;                      // Autonomous vehicle name
+  required string type = 2;                      // Autonomous vehicle type, refer to Carla-supported vehicle types (e.g., vehicle.tesla.model3)
+  required Location location = 3;                // Initial vehicle location information (x: longitude, y: latitude, z: altitude)
+  required Rotation rotation = 4;                // Initial vehicle orientation information
+  repeated CameraConfig cameras = 6;             // Camera sensor configuration
+  repeated LidarConfig lidars = 7;               // LiDAR sensor configuration
+  repeated RadarConfig radars = 8;               // Radar sensor configuration
+  repeated GnssConfig gnsses = 9;                // GNSS sensor configuration
+  repeated ImuConfig imus = 10;                  // IMU sensor configuration
+  repeated GroundTrueConfig ground_true = 11;    // Ground truth sensor configuration
+  repeated LocalizationConfig localization = 12; // Localization sensor configuration
+  required ChassisConfig chassis = 13;           // Chassis configuration
+  required ControlConfig control = 14;           // Control configuration
+}

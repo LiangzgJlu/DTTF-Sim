@@ -8,8 +8,8 @@
 namespace apollo {
 namespace dttf {
 namespace drivers {
-    GnssComponent::GnssComponent(const ::dttf::rpc::GnssConfig& config) {
-        gnss_config_ = std::make_shared<::dttf::rpc::GnssConfig>(config);
+    GnssComponent::GnssComponent(const apollo::dttf::config::GnssConfig& config) {
+        gnss_config_ = std::make_shared<apollo::dttf::config::GnssConfig>(config);
     }
 
     bool GnssComponent::Init(const std::shared_ptr<Node>& node) {

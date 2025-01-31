@@ -9,8 +9,8 @@
 namespace apollo {
     namespace dttf {
         namespace drivers {
-            GroundTrueComponent::GroundTrueComponent(const ::dttf::rpc::GroundTrueConfig& config) {
-                ground_true_config_ = std::make_shared<::dttf::rpc::GroundTrueConfig>(config);
+            GroundTrueComponent::GroundTrueComponent(const apollo::dttf::config::GroundTrueConfig& config) {
+                ground_true_config_ = std::make_shared<apollo::dttf::config::GroundTrueConfig>(config);
                 
             }
 

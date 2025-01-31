@@ -1,0 +1,145 @@
+syntax = "proto2";
+package apollo.dttf.config;
+
+enum CommunicationType{                 // 消息通信类型，考虑传感器通信效率问题，目前传感器数据、控制信息仅支持UNIX域流方式通信。
+  None = 0;                
+  TCP = 1;                              // TCP
+  UNIX = 2;                             // UNIX 域
+  UDP = 3;                              // UDP 
+}
+
+message Communication{                  // 通信配置        
+  required CommunicationType type = 1;
+  required string url = 2;              // 套接字通信地址 
+}
+
+message Location{                       // 位置信息
+  required double x = 1;                         
+  required double y = 2;                        
+  required double z = 3;                         
+}
+
+message Rotation{                       // 姿态信息
+  required double roll = 1;
+  required double yaw = 2;
+  required double pitch = 3;
+}
+
+message CameraConfig{                            // 相机传感器配置
+  required string name = 1;                      // 相机传感器名
+  required Location location = 2;                // 相机相对于车辆中心的偏移
+  required Rotation rotation = 3;                // 相机姿态
+  required uint32 fov = 4;                       // 相机FOV
+  required uint32 width = 5;                     // 像宽
+  required uint32 height = 6;                    // 像高 
+  required double lens_flare_intensity = 7;      // 镜头光晕强度
+  required Communication communication = 8;      // 相机传感器数据通信方式，只能使用Unix 域通信方式
+
+}
+
+message LidarConfig{                             // 激光雷达传感器配置
+  required string name = 1;                      // 激光雷达传感器名
+  required Location location = 2;                // 激光雷达相对于车辆中心的安装位置
+  required Rotation rotation = 3;                // 激光雷达的姿态
+  required uint32 channels = 4;                  // 激光雷达的通道数
+  required uint32 range = 5;                     // 激光雷达的探测半径
+  required uint32 rotation_frequency = 6;        // 激光雷达的旋转频率
+  required uint32 horizontal_fov = 7;            // 激光雷达的水平视野范围
+  required int32 upper_fov = 8;                  // 激光雷达的垂直-上极限视野
+  required int32 lower_fov = 9;                  // 激光雷达的垂直-下极限视野
+  required Communication communication = 11;     // 激光雷达传感器数据通信方式，只能使用Unix 域通信方式
+}
+
+message GnssConfig{                              // GNSS传感器配置
+  required string name = 1;                      // GNSS传感器名
+  required Location location = 2;                // GNSS设备相对于车辆中心的安装位置
+  required Rotation rotation = 3;                // GNSS设备的姿态
+  required Communication communication = 11;     // GNSS传感器数据通信方式，只能使用Unix 域通信方式
+}
+
+message ImuConfig{                               // IMU传感器配置
+  required string name = 1;                      // IMU传感器名
+  required Location location = 2;                // IMU设备相对于车辆中心的安装位置
+  required Rotation rotation = 3;                // IMU设备姿态
+  required Communication communication = 11;     // IMU传感器数据通信方式，只能使用Unix 域通信方式
+}
+
+message RadarConfig{                             // Radar传感器配置
+  required string name = 1;                      // Radar传感器名
+  required Location location = 2;                // Radar传感器相对于车辆中心安装位置
+  required Rotation rotation = 3;                // Radar传感器姿态
+  required uint32 horizontal_fov = 4;            // 毫米波雷达水平视野范围
+  required uint32 range = 5;                     // 毫米波雷达探测距离
+  required uint32 vertical_fov = 6;              // 毫米波雷达垂直视野范围
+  required Communication communication = 11;     // 毫米波雷达数据通信方式，只能使用Unix 域通信方式
+}
+
+message GroundTrueConfig{                        // 真值传感器配置
+  required string name = 1;                      // 真值传感器名
+  required uint32 range = 2;                     // 真值传感器探测范围
+  required Communication communication = 11;     // 真值传感器通信方式
+}
+
+message LocalizationConfig{                      // 定位传感器配置 (GNSS+IMU)
+  required string name = 1;                      // 定位传感器名
+  required Location location = 2;                // 定位传感器相对于车辆中心的安装位置
+  required Rotation rotation = 3;                // 定位传感器姿态
+  required Communication communication = 11;     // 定位传感器数据通信方式，只能使用Unix 域通信方式
+}
+
+message ChassisConfig{                           // 底盘配置
+  required string name = 1;                      // 底盘名
+  required Communication communication = 11;     // 底盘数据通信方式，只能使用Unix 域通信方式
+}
+
+message ControlConfig{                           // 车辆控制信息配置
+  required string name = 1;                      // 控制信息名
+  required Communication communication = 11;     // 车辆控制信息通信方式，只能使用Unix 域通信方式
+}
+
+message LaneFollowCommandConfig{
+  
+  required string channel_name = 1;
+  required Location target_location = 2;
+  required double target_heading = 3;
+}
+
+message AutonomousVehicleConfig{
+  required string name = 1;
+  required string type = 2;
+  required Location location = 3;
+  required Rotation rotation = 4;
+  repeated CameraConfig cameras = 6;
+  repeated LidarConfig lidars = 7;
+  repeated RadarConfig radars = 8;
+  repeated GnssConfig gnsses = 9;
+  repeated ImuConfig imus = 10;
+  repeated GroundTrueConfig ground_true = 11;
+  repeated LocalizationConfig localization = 12;
+  required ChassisConfig chassis = 13;
+  required ControlConfig control = 14;
+  required string rpc_url = 21;
+  required LaneFollowCommandConfig lane_following_command = 31;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

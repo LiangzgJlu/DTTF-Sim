@@ -27,7 +27,7 @@ ApolloDttfComponent::~ApolloDttfComponent() {}
 bool ApolloDttfComponent::Init() { 
     try
     {
-        autonomous_vehicle_config_ = std::make_unique<::dttf::rpc::AutonomousVehicleConfig>();
+        autonomous_vehicle_config_ = std::make_unique<apollo::dttf::config::AutonomousVehicleConfig>();
 
         if(!cyber::ComponentBase::GetProtoConfig(autonomous_vehicle_config_.get()))
         {
@@ -284,6 +284,8 @@ bool ApolloDttfComponent::SendGenerateAutonomousVehicleCommand()
     dttf_command_client_ = std::make_unique<util::TcpClient>("127.0.0.1", 50051);
 
     auto data = autonomous_vehicle_config_->SerializeAsString();
+
+
 
     if(dttf_command_client_->Init())
     {
