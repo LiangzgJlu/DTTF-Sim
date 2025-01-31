@@ -45,7 +45,7 @@ apollo_cc_library(
         "//modules/common_msgs/chassis_msgs:chassis_cc_proto",
         "//modules/common_msgs/control_msgs:control_cmd_cc_proto",
         "//modules/common_msgs/external_command_msgs:chassis_command_cc_proto",
-        "//modules/apollo_dttf/proto:dttf_rpc_proto",
+        "//modules/apollo_dttf/proto:apollo_dttf_proto",
         "//modules/apollo_dttf/util:apollo_dttf_util",
         "//modules/apollo_dttf/common:apollo_dttf_common",
         "@eigen",
